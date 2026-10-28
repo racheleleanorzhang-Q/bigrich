@@ -32,7 +32,9 @@ jobs:
         run: |
           cp -r astro-site/dist/* www/slash/ 2>/dev/null || true
       
-      # 关键步骤：用环境变量方式写入 SSH 密钥，避免 action 处理
+      - name: Install rsync
+        run: sudo apt-get update && sudo apt-get install -y rsync
+      
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
@@ -53,5 +55,5 @@ jobs:
             sudo chown -R root:admin /usr/share/nginx/html/
             sudo chmod -R 755 /usr/share/nginx/html/
             sudo systemctl reload nginx
-            echo 'Deployment completed at $(date)'
+            echo 'Deployment completed at \$(date)'
           "
