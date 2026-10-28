@@ -1,0 +1,51 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js for Astro build
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install Astro dependencies
+        working-directory: ./astro-site
+        run: npm ci
+      
+      - name: Build Astro site
+        working-directory: ./astro-site
+        run: npm run build
+      
+      - name: Prepare deployment files
+        run: |
+          # Copy Astro build outputs to www directory
+          cp -r astro-site/dist/* www/slash/ 2>/dev/null || true
+          
+      - name: Deploy via SSH
+        uses: easingthemes/ssh-deploy@v4
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.SERVER_HOST }}
+          REMOTE_USER: ${{ secrets.SERVER_USER }}
+          REMOTE_PORT: ${{ secrets.SERVER_PORT }}
+          SOURCE: www/
+          TARGET: /usr/share/nginx/html/
+          SCRIPT_AFTER: |
+            echo "Deployment completed at $(date)"
+            sudo chown -R root:admin /usr/share/nginx/html/
+            sudo chmod -R 755 /usr/share/nginx/html/
+            sudo systemctl reload nginx
+        env:
+          TARGET_PERMISSIONS: 755

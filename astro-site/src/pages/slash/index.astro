@@ -1,0 +1,89 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SlashHero from "../../components/SlashHero.astro";
+import TopicCard from "../../components/TopicCard.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import FeaturedArticle from "../../components/FeaturedArticle.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+
+// Get all published, non-draft articles sorted by date
+const allPosts = (await getCollection("slash", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Featured article
+const featuredPost = allPosts.find((p) => p.data.featured) || allPosts[0];
+
+// Group by category
+const categories = ["beijing", "finance", "home", "pet"] as const;
+const categoryMeta: Record<string, { label: string; emoji: string; description: string }> = {
+  beijing: { label: "北京", emoji: "🏛️", description: "路线、胡同、早餐、展览、城市观察" },
+  finance: { label: "理财", emoji: "💰", description: "普通人家庭财务规划" },
+  home: { label: "家装", emoji: "🏠", description: "装修避坑、预算、软装、空间改造" },
+  pet: { label: "柴犬", emoji: "🐕", description: "柴犬日常、训练、用品、健康" },
+};
+
+const postsByCategory = Object.fromEntries(
+  categories.map((cat) => [
+    cat,
+    allPosts.filter((p) => p.data.category === cat).slice(0, 3),
+  ])
+);
+
+const categoryCounts = Object.fromEntries(
+  categories.map((cat) => [
+    cat,
+    allPosts.filter((p) => p.data.category === cat).length,
+  ])
+);
+---
+
+<BaseLayout title="Slash | Rachel Xia" description="斜杠青年的生活记录 — 导游、理财师、家装爱好者、柴犬铲屎官">
+  <SlashHero />
+
+  <div class="container" style="padding-bottom:3rem;">
+    {/* Featured Article */}
+    {featuredPost && (
+      <section style="margin-bottom:2.5rem;">
+        <FeaturedArticle post={featuredPost} />
+      </section>
+    )}
+
+    {/* Category Entries */}
+    <section style="margin-bottom:2.5rem;">
+      <SectionHeader title="探索主题" description="选择一个你感兴趣的方向" />
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
+        {categories.map((cat) => (
+          <TopicCard
+            category={cat}
+            label={categoryMeta[cat].label}
+            emoji={categoryMeta[cat].emoji}
+            description={categoryMeta[cat].description}
+            count={categoryCounts[cat]}
+          />
+        ))}
+      </div>
+    </section>
+
+    {/* Recent Articles by Category */}
+    {categories.map((cat) => {
+      const posts = postsByCategory[cat];
+      if (posts.length === 0) return null;
+      return (
+        <section key={cat} style="margin-bottom:2.5rem;">
+          <SectionHeader
+            title={`${categoryMeta[cat].emoji} ${categoryMeta[cat].label}`}
+            description={categoryMeta[cat].description}
+            link={`/topics/${cat}`}
+            linkText="查看全部"
+          />
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+            {posts.map((post) => (
+              <ArticleCard post={post} />
+            ))}
+          </div>
+        </section>
+      );
+    })}
+  </div>
+</BaseLayout>

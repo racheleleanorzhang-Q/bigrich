@@ -1,0 +1,123 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"slash">;
+}
+const { post } = Astro.props;
+const { title, summary, date, category, tags, cover } = post.data;
+const slug = post.slug;
+const categoryLabels: Record<string, string> = {
+  beijing: "北京",
+  finance: "理财",
+  home: "家装",
+  pet: "柴犬",
+};
+---
+
+<a href={`/slash/${slug}`} class="featured-card">
+  <div class="featured-layout">
+    {cover && (
+      <div class="featured-cover">
+        <img src={cover} alt={title} loading="lazy" />
+      </div>
+    )}
+    <div class="featured-content">
+      <div class="featured-header">
+        <span class="featured-star">★ 精选</span>
+        <span class={`category-badge ${category}`}>{categoryLabels[category]}</span>
+      </div>
+      <h2 class="featured-title">{title}</h2>
+      <p class="featured-excerpt">{summary}</p>
+      <div class="featured-footer">
+        <time datetime={date.toISOString()}>
+          {date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        <span class="featured-action">阅读全文 →</span>
+      </div>
+    </div>
+  </div>
+</a>
+
+<style>
+  .featured-card {
+    display: block;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    background: var(--cream);
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .featured-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .featured-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .featured-cover {
+    overflow: hidden;
+  }
+  .featured-cover img {
+    width: 100%;
+    height: 100%;
+    min-height: 240px;
+    object-fit: cover;
+    display: block;
+  }
+  .featured-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .featured-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .featured-star {
+    font-size: 0.6875rem;
+    color: var(--gold-600);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .featured-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 0.5rem 0;
+  }
+  .featured-excerpt {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0 0 0.75rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .featured-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .featured-footer time {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+  .featured-action {
+    font-size: 0.8125rem;
+    color: var(--blue-600);
+    font-weight: 500;
+  }
+  @media (max-width: 640px) {
+    .featured-layout {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

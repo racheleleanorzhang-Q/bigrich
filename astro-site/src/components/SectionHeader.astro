@@ -1,0 +1,21 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  link?: string;
+  linkText?: string;
+}
+const { title, description, link, linkText = "查看全部" } = Astro.props;
+---
+
+<div class="section-header" style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.25rem;">
+  <div>
+    <div class="section-tag">{title}</div>
+    {description && <p class="section-desc" style="font-size:0.875rem;">{description}</p>}
+  </div>
+  {link && (
+    <a href={link} style="font-size:0.8125rem;color:var(--blue-600);font-weight:500;white-space:nowrap;">
+      {linkText} →
+    </a>
+  )}
+</div>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rachel Xia - 网站流量数据分析看板">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bigrich88888.xin/analytics.html">
+    <meta property="og:title" content="Analytics | Rachel Xia">
+    <meta property="og:description" content="网站流量数据分析看板——实时追踪访问趋势与用户行为。">
+    <meta property="og:image" content="https://bigrich88888.xin/images/og-cover.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Analytics | Rachel Xia">
+    <meta name="twitter:description" content="网站流量数据分析看板——实时追踪访问趋势与用户行为。">
+    <link rel="canonical" href="https://bigrich88888.xin/analytics.html">
+    <title>Analytics | Rachel Xia</title>
+    <link rel="stylesheet" href="/css/style.css?v=38">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%232563eb'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='60' font-family='system-ui' font-weight='700' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+    <style>
+        /* Dashboard specific styles */
+        .dashboard-wrapper { background: #f5f5f5; min-height: calc(100vh - 64px); padding-top: 20px; }
+        [data-theme="dark"] .dashboard-wrapper { background: #0d1117; }
+        .dashboard-header { padding: 10px 16px 0; max-width: 1200px; margin: 0 auto; }
+        .dashboard-header h1 { font-size: 24px; font-weight: 700; color: #1a1a1a; margin-bottom: 2px; }
+        [data-theme="dark"] .dashboard-header h1 { color: #e6edf3; }
+        .dashboard-header p { font-size: 13px; color: #666; }
+        [data-theme="dark"] .dashboard-header p { color: #8b949e; }
+        .dashboard-container { max-width: 1200px; margin: 0 auto; padding: 14px; }
+        .period-selector { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+        .period-btn { padding: 6px 14px; border: 1px solid #ddd; background: white; border-radius: 6px; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+        [data-theme="dark"] .period-btn { background: #161b22; border-color: #30363d; color: #c9d1d9; }
+        .period-btn.active { background: #2563eb; color: white; border-color: #2563eb; }
+        .period-btn:hover { border-color: #2563eb; }
+        [data-theme="dark"] .period-btn:hover { border-color: #58a6ff; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 14px; }
+        .stat-card { background: white; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        [data-theme="dark"] .stat-card { background: #161b22; border: 1px solid #30363d; box-shadow: none; }
+        .stat-card .label { font-size: 12px; color: #666; margin-bottom: 4px; }
+        [data-theme="dark"] .stat-card .label { color: #8b949e; }
+        .stat-card .value { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+        [data-theme="dark"] .stat-card .value { color: #e6edf3; }
+        .stat-card .value.blue { color: #2563eb; }
+        .stat-card .value.gold { color: #d97706; }
+        .chart-section { background: white; border-radius: 8px; padding: 14px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        [data-theme="dark"] .chart-section { background: #161b22; border: 1px solid #30363d; box-shadow: none; }
+        .chart-section h3 { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: #1a1a1a; }
+        [data-theme="dark"] .chart-section h3 { color: #e6edf3; }
+        .bar-chart { display: flex; flex-direction: column; gap: 6px; }
+        .bar-row { display: flex; align-items: center; gap: 8px; }
+        .bar-label { min-width: 100px; font-size: 12px; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        [data-theme="dark"] .bar-label { color: #8b949e; }
+        .bar-track { flex: 1; height: 24px; background: #f0f0f0; border-radius: 4px; overflow: hidden; }
+        [data-theme="dark"] .bar-track { background: #21262d; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #3b82f6); border-radius: 4px; transition: width 0.5s ease; display: flex; align-items: center; padding-left: 8px; font-size: 11px; color: white; font-weight: 500; }
+        .bar-count { min-width: 44px; text-align: right; font-size: 12px; font-weight: 600; color: #333; }
+        [data-theme="dark"] .bar-count { color: #c9d1d9; }
+        .recent-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .recent-table th { text-align: left; padding: 6px 10px; border-bottom: 2px solid #eee; color: #666; font-weight: 600; }
+        [data-theme="dark"] .recent-table th { border-bottom-color: #30363d; color: #8b949e; }
+        .recent-table td { padding: 6px 10px; border-bottom: 1px solid #f0f0f0; }
+        [data-theme="dark"] .recent-table td { border-bottom-color: #21262d; color: #c9d1d9; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
+        .pagination button { padding: 5px 10px; border: 1px solid #ddd; background: white; border-radius: 5px; cursor: pointer; font-size: 12px; color: #333; transition: all 0.2s; min-width: 32px; }
+        [data-theme="dark"] .pagination button { background: #161b22; border-color: #30363d; color: #c9d1d9; }
+        .pagination button:hover:not(:disabled):not(.active) { border-color: #2563eb; color: #2563eb; }
+        [data-theme="dark"] .pagination button:hover:not(:disabled):not(.active) { border-color: #58a6ff; color: #58a6ff; }
+        .pagination button.active { background: #2563eb; color: white; border-color: #2563eb; }
+        .pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .pagination .page-info { font-size: 12px; color: #666; padding: 0 6px; }
+        [data-theme="dark"] .pagination .page-info { color: #8b949e; }
+        .pagination .page-ellipsis { padding: 0 4px; color: #999; font-size: 12px; }
+        [data-theme="dark"] .pagination .page-ellipsis { color: #484f58; }
+        @media (max-width: 768px) {
+            .two-col { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .dashboard-header h1 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="header-brand">
+                <div class="header-avatar">R</div>
+                <div>
+                    <div class="header-name">Rachel Xia</div>
+                    <div class="header-sub">AI Product · Growth · Simulation</div>
+                </div>
+            </div>
+            <nav class="site-nav" id="siteNav">
+                <a href="index.html">Selected Work</a>
+                <a href="index.html#insight">Thoughts</a>
+                <a href="slash.html" target="_blank">Slash</a>
+                <a href="analytics.html" class="active">Analytics</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="/admin/" id="adminLink" style="display:none; color:var(--gold-600, #b45309); font-weight:600;" title="Admin Editor">⚙ Admin</a>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="切换暗色模式" title="切换主题">
+                <span id="themeIcon">🌙</span>
+            </button>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="打开菜单" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <div class="dashboard-header">
+            <h1>📊 流量数据看板</h1>
+            <p>bigrich88888.xin · 实时流量统计</p>
+        </div>
+        <div class="dashboard-container">
+            <div class="period-selector">
+                <button class="period-btn" data-days="1">今天</button>
+                <button class="period-btn active" data-days="7">近7天</button>
+                <button class="period-btn" data-days="30">近30天</button>
+                <button class="period-btn" data-days="90">近90天</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">总访问量 (PV)</div>
+                    <div class="value blue" id="totalViews">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">独立访客 (UV)</div>
+                    <div class="value gold" id="uniqueVisitors">-</div>
+                </div>
+            </div>
+            <div class="chart-section">
+                <h3>📈 每日访问趋势</h3>
+                <div class="bar-chart" id="dailyChart"></div>
+            </div>
+            <div class="two-col">
+                <div class="chart-section">
+                    <h3>📄 热门页面</h3>
+                    <div class="bar-chart" id="pagesChart"></div>
+                </div>
+                <div class="chart-section">
+                    <h3>🔗 流量来源</h3>
+                    <div class="bar-chart" id="referrersChart"></div>
+                </div>
+            </div>
+            <div class="two-col">
+                <div class="chart-section">
+                    <h3>📱 设备分布</h3>
+                    <div class="bar-chart" id="devicesChart"></div>
+                </div>
+                <div class="chart-section">
+                    <h3>🌐 浏览器分布</h3>
+                    <div class="bar-chart" id="browsersChart"></div>
+                </div>
+            </div>
+            <div class="chart-section" id="eventsSection" style="display:none;">
+                <h3>🎯 事件统计</h3>
+                <div class="bar-chart" id="eventsChart"></div>
+            </div>
+            <div class="chart-section">
+                <h3>🕐 最近访问</h3>
+                <table class="recent-table">
+                    <thead>
+                        <tr><th>页面</th><th>IP</th><th>设备</th><th>浏览器</th><th>时间</th></tr>
+                    </thead>
+                    <tbody id="recentTable"></tbody>
+                </table>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+    <script>
+        // Dashboard logic
+        let currentDays = 7;
+        let allRecentData = [];
+        let currentPage = 1;
+        const PAGE_SIZE = 20;
+
+        function fetchStats(days) {
+            fetch('/api/stats?days=' + days)
+                .then(r => r.json())
+                .then(render)
+                .catch(e => console.error(e));
+        }
+        function render(d) {
+            document.getElementById('totalViews').textContent = d.totalViews.toLocaleString();
+            document.getElementById('uniqueVisitors').textContent = d.uniqueVisitors.toLocaleString();
+            renderBarChart('dailyChart', d.daily, 'date', 'views');
+            renderBarChart('pagesChart', d.pages, 'page_url', 'views', true);
+            renderBarChart('referrersChart', d.referrers, 'referrer', 'views', true);
+            renderBarChart('devicesChart', d.devices, 'device_type', 'views');
+            renderBarChart('browsersChart', d.browsers, 'browser', 'views');
+            var es = document.getElementById('eventsSection');
+            if (d.events.length > 0) {
+                es.style.display = '';
+                renderBarChart('eventsChart', d.events, 'event_name', 'count');
+            } else { es.style.display = 'none'; }
+            allRecentData = d.recent || [];
+            currentPage = 1;
+            renderRecentTable();
+        }
+        function renderRow(r) {
+            var url = r.page_url.replace('https://', '').replace('http://', '');
+            if (url.length > 30) url = url.substring(0, 30) + '...';
+            var time = new Date(r.created_at).toLocaleString('zh-CN');
+            return '<tr><td title="' + r.page_url + '">' + url + '</td><td>' + (r.user_ip||'') + '</td><td>' + (r.device_type||'-') + '</td><td>' + (r.browser||'-') + '</td><td>' + time + '</td></tr>';
+        }
+        function renderRecentTable() {
+            var total = allRecentData.length;
+            var totalPages = Math.ceil(total / PAGE_SIZE);
+            if (currentPage > totalPages) currentPage = totalPages || 1;
+            var start = (currentPage - 1) * PAGE_SIZE;
+            var end = Math.min(start + PAGE_SIZE, total);
+            var pageData = allRecentData.slice(start, end);
+            var tb = document.getElementById('recentTable');
+            if (total === 0) {
+                tb.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#999;padding:20px;">暂无数据</td></tr>';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            tb.innerHTML = pageData.map(renderRow).join('');
+            renderPagination(totalPages);
+        }
+        function renderPagination(totalPages) {
+            var pg = document.getElementById('pagination');
+            if (totalPages <= 1) { pg.innerHTML = ''; return; }
+            var html = '';
+            html += '<button onclick="goPage(' + (currentPage - 1) + ')"' + (currentPage === 1 ? ' disabled' : '') + '>&lt;</button>';
+            var pages = [];
+            pages.push(1);
+            if (totalPages > 7) {
+                var range = [currentPage - 1, currentPage, currentPage + 1];
+                range.forEach(function(p) {
+                    if (p > 1 && p < totalPages && pages.indexOf(p) === -1) pages.push(p);
+                });
+                pages.sort(function(a,b){return a-b;});
+                // Add ellipsis
+                var finalPages = [];
+                pages.forEach(function(p, i) {
+                    if (i > 0 && p - pages[i-1] > 1) finalPages.push('...');
+                    finalPages.push(p);
+                });
+                if (pages[pages.length-1] < totalPages - 1) finalPages.push('...');
+                if (finalPages[finalPages.length-1] !== totalPages) finalPages.push(totalPages);
+                pages = finalPages;
+            } else {
+                for (var i = 2; i <= totalPages; i++) pages.push(i);
+            }
+            pages.forEach(function(p) {
+                if (p === '...') {
+                    html += '<span class="page-ellipsis">…</span>';
+                } else {
+                    html += '<button onclick="goPage(' + p + ')" class="' + (p === currentPage ? 'active' : '') + '">' + p + '</button>';
+                }
+            });
+            html += '<button onclick="goPage(' + (currentPage + 1) + ')"' + (currentPage === totalPages ? ' disabled' : '') + '>&gt;</button>';
+            html += '<span class="page-info">共 ' + allRecentData.length.toLocaleString() + ' 条</span>';
+            pg.innerHTML = html;
+        }
+        function goPage(page) {
+            currentPage = page;
+            renderRecentTable();
+        }
+        function renderBarChart(containerId, data, labelKey, valueKey, truncate) {
+            var c = document.getElementById(containerId);
+            if (!data || data.length === 0) { c.innerHTML = '<p style="color:#999;font-size:13px;padding:20px 0;">暂无数据</p>'; return; }
+            var maxVal = Math.max.apply(null, data.map(function(d){return d[valueKey];}));
+            c.innerHTML = data.map(function(d) {
+                var label = d[labelKey];
+                if (truncate && label.length > 35) label = label.substring(0, 35) + '...';
+                var pct = maxVal > 0 ? (d[valueKey] / maxVal * 100) : 0;
+                return '<div class="bar-row"><span class="bar-label" title="' + d[labelKey] + '">' + label + '</span><div class="bar-track"><div class="bar-fill" style="width:' + Math.max(pct, 8) + '%">' + d[valueKey] + '</div></div><span class="bar-count">' + d[valueKey] + '</span></div>';
+            }).join('');
+        }
+        document.querySelectorAll('.period-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.period-btn').forEach(function(b){b.classList.remove('active');});
+                btn.classList.add('active');
+                currentDays = parseInt(btn.dataset.days);
+                fetchStats(currentDays);
+            });
+        });
+        fetchStats(currentDays);
+        setInterval(function(){ fetchStats(currentDays); }, 30000);
+    </script>
+
+    <script>
+      (function() {
+        var adminLink = document.getElementById('adminLink');
+        if (adminLink) {
+          if (localStorage.getItem('adminVisible') === 'true') adminLink.style.display = '';
+          document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+              e.preventDefault();
+              var v = localStorage.getItem('adminVisible') === 'true';
+              localStorage.setItem('adminVisible', String(!v));
+              adminLink.style.display = v ? 'none' : '';
+            }
+          });
+        }
+      })();
+    </script>
+
+</body>
+</html>

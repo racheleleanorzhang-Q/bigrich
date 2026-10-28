@@ -1,0 +1,93 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Rachel Xia - 斜杠青年" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bigrich88888.xin/" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://bigrich88888.xin/images/og-cover.svg" />
+    <title>{title}</title>
+    <link rel="stylesheet" href="/css/slash.css" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%232563eb'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='60' font-family='system-ui' font-weight='700' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="header-brand" style="text-decoration:none">
+          <div class="header-avatar">R</div>
+          <div>
+            <div class="header-name">Rachel Xia</div>
+            <div class="header-sub">AI Product · Growth · Simulation</div>
+          </div>
+        </a>
+        <nav class="site-nav">
+          <a href="/">Home</a>
+          <a href="/slash" class:list={[Astro.url.pathname.startsWith('/slash') ? 'active' : '']}>Slash</a>
+          <a href="/analytics.html">Analytics</a>
+          <a href="/admin/" id="adminLink" style="color:var(--gold-600); font-weight:600;" title="Admin Editor">⚙ Admin</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换暗色模式" title="切换主题">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; 2026 Rachel Xia. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Theme toggle
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      if (themeToggle && themeIcon) {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        themeToggle.addEventListener('click', () => {
+          const current = document.documentElement.getAttribute('data-theme');
+          const next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+          updateThemeIcon(next);
+        });
+        function updateThemeIcon(theme) {
+          themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+      }
+
+      // Admin link: hidden by default, toggle with Ctrl+Shift+A
+      const adminLink = document.getElementById('adminLink');
+      if (adminLink) {
+        if (localStorage.getItem('adminVisible') === 'true') {
+          adminLink.style.display = '';
+        }
+        document.addEventListener('keydown', (e) => {
+          if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+            e.preventDefault();
+            const visible = localStorage.getItem('adminVisible') === 'true';
+            localStorage.setItem('adminVisible', String(!visible));
+            adminLink.style.display = visible ? 'none' : '';
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

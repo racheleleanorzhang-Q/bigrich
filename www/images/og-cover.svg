@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc"/>
+      <stop offset="100%" style="stop-color:#eff6ff"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#d97706"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)" rx="0"/>
+  <!-- Decorative circles -->
+  <circle cx="1050" cy="100" r="200" fill="#dbeafe" opacity="0.3"/>
+  <circle cx="150" cy="530" r="150" fill="#fef3c7" opacity="0.3"/>
+  <!-- Avatar circle -->
+  <circle cx="180" cy="315" r="60" fill="url(#blue)"/>
+  <text x="180" y="345" text-anchor="middle" font-size="52" font-family="system-ui, -apple-system, sans-serif" font-weight="700" fill="white">R</text>
+  <!-- Name -->
+  <text x="280" y="290" font-size="56" font-family="system-ui, -apple-system, sans-serif" font-weight="700" fill="#111827">Rachel Xia</text>
+  <!-- Title -->
+  <text x="280" y="350" font-size="32" font-family="system-ui, -apple-system, sans-serif" font-weight="400" fill="#6b7280">AI Product Manager</text>
+  <!-- Tagline -->
+  <text x="280" y="400" font-size="22" font-family="system-ui, -apple-system, sans-serif" font-weight="400" fill="#9ca3af">把复杂系统，变成清晰产品。</text>
+  <!-- Bottom line -->
+  <rect x="280" y="440" width="80" height="3" fill="url(#gold)" rx="2"/>
+  <!-- URL -->
+  <text x="600" y="560" text-anchor="middle" font-size="18" font-family="system-ui, -apple-system, sans-serif" font-weight="400" fill="#9ca3af">bigrich88888.xin</text>
+</svg>

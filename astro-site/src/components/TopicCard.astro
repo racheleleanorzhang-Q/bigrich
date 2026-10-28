@@ -1,0 +1,60 @@
+---
+interface Props {
+  category: string;
+  label: string;
+  emoji: string;
+  description: string;
+  count: number;
+}
+const { category, label, emoji, description, count } = Astro.props;
+---
+
+<a href={`/topics/${category}`} class="topic-card">
+  <div class="topic-header">
+    <span class="topic-emoji">{emoji}</span>
+    <div>
+      <div class="topic-label">{label}</div>
+      <div class="topic-count">{count} 篇文章</div>
+    </div>
+  </div>
+  <p class="topic-desc">{description}</p>
+</a>
+
+<style>
+  .topic-card {
+    display: block;
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--bg);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .topic-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border-color: var(--blue-200);
+  }
+  .topic-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .topic-emoji {
+    font-size: 1.5rem;
+  }
+  .topic-label {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .topic-count {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+  .topic-desc {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+</style>

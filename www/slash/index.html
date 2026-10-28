@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="斜杠青年的生活记录 — 导游、理财师、家装爱好者、柴犬铲屎官">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bigrich88888.xin/">
+  <meta property="og:title" content="Slash | Rachel Xia">
+  <meta property="og:description" content="斜杠青年的生活记录 — 导游、理财师、家装爱好者、柴犬铲屎官">
+  <meta property="og:image" content="https://bigrich88888.xin/images/og-cover.svg">
+  <title>Slash | Rachel Xia</title>
+  <link rel="stylesheet" href="/css/slash.css?v=5">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%232563eb'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='60' font-family='system-ui' font-weight='700' fill='white'%3ER%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="header-brand" style="text-decoration:none">
+        <div class="header-avatar">R</div>
+        <div>
+          <div class="header-name">Rachel Xia</div>
+          <div class="header-sub">AI Product · Growth · Simulation</div>
+        </div>
+      </a>
+      <nav class="site-nav">
+        <a href="/">Home</a>
+        <a href="/slash" class="active">Slash</a>
+        <a href="/analytics.html">Analytics</a>
+        <a href="/admin/" id="adminLink" style="color:var(--gold-600); font-weight:600;" title="Admin Editor">⚙ Admin</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换暗色模式" title="切换主题">
+        <span id="themeIcon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">生活不止一个标签</h1>
+          <p class="hero-desc">
+            导游、理财师、家装爱好者、柴犬铲屎官。<br>
+            记录真实的生活探索，不端不装，有话直说。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="section-divider"></div>
+
+      <!-- ===== Featured ===== -->
+      <section>
+        <a href="/slash/beijing-hutong-walk" class="featured-card">
+          <div class="featured-content">
+            <div class="featured-header">
+              <span class="featured-star">精选</span>
+              <span class="category-badge beijing">北京</span>
+            </div>
+            <h2 class="featured-title">胡同深度游：从南锣鼓巷到五道营</h2>
+            <p class="featured-excerpt">避开人流，走一条有故事、有咖啡、有老北京味儿的路线。</p>
+            <div class="featured-footer">
+              <time datetime="2026-07-02">2026年7月2日</time>
+              <span class="featured-action">阅读全文 →</span>
+            </div>
+          </div>
+        </a>
+      </section>
+
+      <!-- ===== Topics ===== -->
+      <section>
+        <div class="section-header">
+          <div>
+            <div class="section-tag">探索主题</div>
+            <p class="section-desc">选择一个你感兴趣的方向</p>
+          </div>
+        </div>
+        <div class="topic-grid">
+
+          <a href="#cat-beijing" class="topic-card animate-in">
+            <div class="topic-header">
+              <span class="topic-emoji">🏛️</span>
+              <div>
+                <div class="topic-label">北京</div>
+                <div class="topic-count">4 篇文章</div>
+              </div>
+            </div>
+            <p class="topic-desc">路线、胡同、早餐、展览、城市观察</p>
+          </a>
+
+          <a href="#cat-finance" class="topic-card animate-in">
+            <div class="topic-header">
+              <span class="topic-emoji">💰</span>
+              <div>
+                <div class="topic-label">理财</div>
+                <div class="topic-count">4 篇文章</div>
+              </div>
+            </div>
+            <p class="topic-desc">家庭财务规划、保险、投资心得</p>
+          </a>
+
+          <a href="#cat-home" class="topic-card animate-in">
+            <div class="topic-header">
+              <span class="topic-emoji">🏠</span>
+              <div>
+                <div class="topic-label">家装</div>
+                <div class="topic-count">4 篇文章</div>
+              </div>
+            </div>
+            <p class="topic-desc">装修日记、好物推荐、空间改造</p>
+          </a>
+
+          <a href="#cat-pet" class="topic-card animate-in">
+            <div class="topic-header">
+              <span class="topic-emoji">🐕</span>
+              <div>
+                <div class="topic-label">柴犬</div>
+                <div class="topic-count">4 篇文章</div>
+              </div>
+            </div>
+            <p class="topic-desc">柴犬日常、训练、用品、健康</p>
+          </a>
+
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+            <!-- ===== 🏛️ 北京 ===== -->
+      <section id="cat-beijing">
+        <div class="section-header">
+          <div>
+            <div class="section-tag">🏛️ 北京</div>
+            <p class="section-desc">城市探索与路线分享</p>
+          </div>
+          <a href="/topics/beijing" style="font-size:0.8125rem;color:var(--blue-600);font-weight:500;white-space:nowrap;">查看全部 →</a>
+        </div>
+        <div class="article-grid">
+        <a href="/slash/胡同深度游：从南锣鼓巷到五道营" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🏛️</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge beijing">北京</span>
+          </div>
+          <h3 class="article-title">胡同深度游：从南锣鼓巷到五道营</h3>
+          <p class="article-excerpt">避开人流，走一条有故事、有咖啡、有老北京味儿的路线。</p>
+          <div class="article-footer">
+            <time datetime="2026-07-02">7月2日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/北京早餐图鉴：豆汁儿、炒肝、卤煮" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🏛️</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge beijing">北京</span>
+          </div>
+          <h3 class="article-title">北京早餐图鉴：豆汁儿、炒肝、卤煮</h3>
+          <p class="article-excerpt">吃遍老北京早点，哪些是真好吃，哪些是猎奇。</p>
+          <div class="article-footer">
+            <time datetime="2026-06-28">6月28日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/周末逛展指南：798到UCCA" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🏛️</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge beijing">北京</span>
+          </div>
+          <h3 class="article-title">周末逛展指南：798到UCCA</h3>
+          <p class="article-excerpt">每月更新，帮你挑值得花半天时间的展览。</p>
+          <div class="article-footer">
+            <time datetime="2026-06-15">6月15日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/五环外的秘密：温榆河骑行路线" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🏛️</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge beijing">北京</span>
+          </div>
+          <h3 class="article-title">五环外的秘密：温榆河骑行路线</h3>
+          <p class="article-excerpt">避开拥堵，用两个轮子重新认识北京。</p>
+          <div class="article-footer">
+            <time datetime="2026-06-08">6月8日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        </div>
+      </section>
+
+      <!-- ===== 💰 理财 ===== -->
+      <section id="cat-finance">
+        <div class="section-header">
+          <div>
+            <div class="section-tag">💰 理财</div>
+            <p class="section-desc">普通人家庭财务规划</p>
+          </div>
+          <a href="/topics/finance" style="font-size:0.8125rem;color:var(--blue-600);font-weight:500;white-space:nowrap;">查看全部 →</a>
+        </div>
+        <div class="article-grid">
+        <a href="/slash/家庭财务年度检查清单" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">💰</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge finance">理财</span>
+          </div>
+          <h3 class="article-title">家庭财务年度检查清单</h3>
+          <p class="article-excerpt">每年做一次全面的家庭财务体检，不焦虑、不盲目，心里有数。</p>
+          <div class="article-footer">
+            <time datetime="2026-06-28">6月28日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/重疾险怎么买：一份给普通家庭的指南" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">💰</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge finance">理财</span>
+          </div>
+          <h3 class="article-title">重疾险怎么买：一份给普通家庭的指南</h3>
+          <p class="article-excerpt">不推销、不制造焦虑，只讲清楚该不该买、怎么买。</p>
+          <div class="article-footer">
+            <time datetime="2026-06-10">6月10日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/基金定投三年，我学到了什么" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">💰</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge finance">理财</span>
+          </div>
+          <h3 class="article-title">基金定投三年，我学到了什么</h3>
+          <p class="article-excerpt">从追涨杀跌到佛系定投，聊聊真实的投资心态。</p>
+          <div class="article-footer">
+            <time datetime="2026-05-20">5月20日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/给孩子的教育金规划" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">💰</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge finance">理财</span>
+          </div>
+          <h3 class="article-title">给孩子的教育金规划</h3>
+          <p class="article-excerpt">越早开始越轻松，算一笔清楚账。</p>
+          <div class="article-footer">
+            <time datetime="2026-05-05">5月5日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        </div>
+      </section>
+
+      <!-- ===== 🐕 柴犬 ===== -->
+      <section id="cat-pet">
+        <div class="section-header">
+          <div>
+            <div class="section-tag">🐕 柴犬</div>
+            <p class="section-desc">柴犬日常、训练、用品、健康</p>
+          </div>
+          <a href="/topics/pet" style="font-size:0.8125rem;color:var(--blue-600);font-weight:500;white-space:nowrap;">查看全部 →</a>
+        </div>
+        <div class="article-grid">
+        <a href="/slash/柴犬召回训练：从放飞到喊就回" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🐕</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge pet">柴犬</span>
+          </div>
+          <h3 class="article-title">柴犬召回训练：从放飞到喊就回</h3>
+          <p class="article-excerpt">三个月召回训练实录，从满公园追不到到一喊就回，方法比耐心更重要。</p>
+          <div class="article-footer">
+            <time datetime="2026-06-25">6月25日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/柴犬拆家怎么办：三个实用技巧" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🐕</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge pet">柴犬</span>
+          </div>
+          <h3 class="article-title">柴犬拆家怎么办：三个实用技巧</h3>
+          <p class="article-excerpt">沙发腿、拖鞋、纸巾……柴犬的破坏力远超想象。</p>
+          <div class="article-footer">
+            <time datetime="2026-06-12">6月12日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/柴犬饮食指南：哪些人类食物可以吃" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🐕</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge pet">柴犬</span>
+          </div>
+          <h3 class="article-title">柴犬饮食指南：哪些人类食物可以吃</h3>
+          <p class="article-excerpt">巧克力、葡萄、洋葱……这份清单建议收藏。</p>
+          <div class="article-footer">
+            <time datetime="2026-05-28">5月28日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/第一次养柴犬的注意事项" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🐕</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge pet">柴犬</span>
+          </div>
+          <h3 class="article-title">第一次养柴犬的注意事项</h3>
+          <p class="article-excerpt">从选犬到回家第一周，避开新手最容易踩的坑。</p>
+          <div class="article-footer">
+            <time datetime="2026-05-15">5月15日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        </div>
+      </section>
+
+      <!-- ===== 🏠 家装 ===== -->
+      <section id="cat-home">
+        <div class="section-header">
+          <div>
+            <div class="section-tag">🏠 家装</div>
+            <p class="section-desc">装修日记、好物推荐、空间改造</p>
+          </div>
+          <a href="/topics/home" style="font-size:0.8125rem;color:var(--blue-600);font-weight:500;white-space:nowrap;">查看全部 →</a>
+        </div>
+        <div class="article-grid">
+        <a href="/slash/客厅改造：从出租屋到温馨小家" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🏠</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge home">家装</span>
+          </div>
+          <h3 class="article-title">客厅改造：从出租屋到温馨小家</h3>
+          <p class="article-excerpt">预算两万，软装改造出租屋客厅，效果堪比样板间。</p>
+          <div class="article-footer">
+            <time datetime="2026-06-20">6月20日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/小户型收纳：让空间大一倍的秘诀" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🏠</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge home">家装</span>
+          </div>
+          <h3 class="article-title">小户型收纳：让空间大一倍的秘诀</h3>
+          <p class="article-excerpt">不是扔扔扔，而是用对方法。</p>
+          <div class="article-footer">
+            <time datetime="2026-06-05">6月5日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/厨房改造：从杂乱到高效" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🏠</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge home">家装</span>
+          </div>
+          <h3 class="article-title">厨房改造：从杂乱到高效</h3>
+          <p class="article-excerpt">动线、收纳、台面，三个维度提升下厨体验。</p>
+          <div class="article-footer">
+            <time datetime="2026-05-18">5月18日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        <a href="/slash/阳台花园：城市里的迷你绿洲" class="article-card animate-in">
+          <div class="article-cover">
+            <span class="article-cover-placeholder">🏠</span>
+          </div>
+          <div class="article-meta">
+            <span class="category-badge home">家装</span>
+          </div>
+          <h3 class="article-title">阳台花园：城市里的迷你绿洲</h3>
+          <p class="article-excerpt">预算五百，打造属于自己的小花园。</p>
+          <div class="article-footer">
+            <time datetime="2026-05-02">5月2日</time>
+            <span class="article-action">阅读 →</span>
+          </div>
+        </a>
+        </div>
+      </section>
+</main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Rachel Xia. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const toggle = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    icon.textContent = saved === 'dark' ? '☀️' : '🌙';
+    toggle.addEventListener('click', () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      icon.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+
+    // Admin link visibility
+    const adminLink = document.getElementById('adminLink');
+    if (adminLink) {
+      if (localStorage.getItem('adminVisible') === 'true') adminLink.style.display = '';
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+          e.preventDefault();
+          const vis = localStorage.getItem('adminVisible') === 'true';
+          localStorage.setItem('adminVisible', String(!vis));
+          adminLink.style.display = vis ? 'none' : '';
+        }
+      });
+    }
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-in').forEach(el => {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

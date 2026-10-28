@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+
+const allPosts = (await getCollection("slash", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+export async function getStaticPaths() {
+  const categories = ["beijing", "finance", "home", "pet"] as const;
+  return categories.map((cat) => ({
+    params: { category: cat },
+    props: { category: cat },
+  }));
+}
+
+const { category } = Astro.props;
+const categoryPosts = allPosts.filter((p) => p.data.category === category);
+
+const categoryMeta: Record<string, { label: string; emoji: string; description: string }> = {
+  beijing: { label: "北京", emoji: "🏛️", description: "路线、胡同、早餐、展览、城市观察" },
+  finance: { label: "理财", emoji: "💰", description: "普通人家庭财务规划" },
+  home: { label: "家装", emoji: "🏠", description: "装修避坑、预算、软装、空间改造" },
+  pet: { label: "柴犬", emoji: "🐕", description: "柴犬日常、训练、用品、健康" },
+};
+
+const meta = categoryMeta[category] || { label: category, emoji: "📄", description: "" };
+---
+
+<BaseLayout title={`${meta.label} | Slash | Rachel Xia`} description={meta.description}>
+  <div style="max-width:48rem;margin:0 auto;padding:2rem 1rem 4rem;">
+    {/* Back link */}
+    <a href="/slash" style="display:inline-flex;align-items:center;gap:0.25rem;font-size:0.875rem;color:var(--text-secondary);margin-bottom:1.5rem;">
+      <span>←</span> 返回 Slash
+    </a>
+
+    {/* Header */}
+    <div style="margin-bottom:2rem;">
+      <div style="font-size:1.75rem;font-weight:700;margin-bottom:0.375rem;">{meta.emoji} {meta.label}</div>
+      <p style="font-size:0.9375rem;color:var(--text-secondary);">{meta.description}</p>
+      <p style="font-size:0.8125rem;color:var(--text-tertiary);margin-top:0.25rem;">{categoryPosts.length} 篇文章</p>
+    </div>
+
+    {/* Articles */}
+    {categoryPosts.length > 0 ? (
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">
+        {categoryPosts.map((post) => (
+          <ArticleCard post={post} />
+        ))}
+      </div>
+    ) : (
+      <div style="text-align:center;padding:3rem 0;color:var(--text-tertiary);">
+        <p style="font-size:1.125rem;margin-bottom:0.5rem;">这个分类还没有文章</p>
+        <p style="font-size:0.875rem;">敬请期待...</p>
+      </div>
+    )}
+  </div>
+</BaseLayout>

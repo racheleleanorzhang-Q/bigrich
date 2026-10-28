@@ -1,0 +1,61 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"slash">;
+}
+
+const { post } = Astro.props;
+const { title, summary, date, category, tags, cover } = post.data;
+const categoryLabels: Record<string, string> = {
+  beijing: "北京",
+  finance: "理财",
+  home: "家装",
+  pet: "柴犬",
+};
+---
+
+<BaseLayout title={`${title} | Rachel Xia`} description={summary}>
+  <article style="max-width: 48rem; margin: 0 auto; padding: 2rem 1rem 4rem;">
+    <!-- Back link -->
+    <a href="/slash" style="display:inline-flex;align-items:center;gap:0.25rem;font-size:0.875rem;color:var(--text-secondary);margin-bottom:1.5rem;transition:color 0.15s;" on:mouseover="(e)=>e.currentTarget.style.color='var(--blue-600)'" on:focus="(e)=>e.currentTarget.style.color='var(--blue-600)'" on:mouseout="(e)=>e.currentTarget.style.color='var(--text-secondary)'" on:blur="(e)=>e.currentTarget.style.color='var(--text-secondary)'">
+      <span>←</span> 返回 Slash
+    </a>
+
+    <!-- Cover -->
+    {cover && (
+      <div style="margin-bottom:1.5rem;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);">
+        <img src={cover} alt={title} style="width:100%;display:block;" loading="lazy" />
+      </div>
+    )}
+
+    <!-- Meta -->
+    <div style="margin-bottom:1rem;">
+      <span class={`category-badge ${category}`}>{categoryLabels[category]}</span>
+    </div>
+
+    <!-- Title -->
+    <h1 style="font-size:1.75rem;font-weight:700;line-height:1.3;margin-bottom:0.75rem;">{title}</h1>
+
+    <!-- Summary -->
+    <p style="font-size:1.0625rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1rem;">{summary}</p>
+
+    <!-- Date + Tags -->
+    <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);">
+      <time datetime={date.toISOString()} style="font-size:0.8125rem;color:var(--text-tertiary);">
+        {date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </time>
+      <div style="display:flex;flex-wrap:wrap;gap:0;">
+        {tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="article-body">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
