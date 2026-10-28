@@ -32,22 +32,22 @@ jobs:
         run: |
           cp -r astro-site/dist/* www/slash/ 2>/dev/null || true
       
-      - name: Install rsync
-        run: sudo apt-get update && sudo apt-get install -y rsync
-      
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+          echo "SSH key setup complete"
       
-      - name: Deploy via rsync
+      - name: Test SSH Connection
         run: |
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }}" \
-            www/ \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/usr/share/nginx/html/
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful'"
+      
+      - name: Deploy via scp
+        run: |
+          scp -i ~/.ssh/deploy_key -P ${{ secrets.SERVER_PORT }} -r www/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/usr/share/nginx/html/
+          echo "SCP deployment complete"
       
       - name: Remote commands
         run: |
@@ -55,5 +55,5 @@ jobs:
             sudo chown -R root:admin /usr/share/nginx/html/
             sudo chmod -R 755 /usr/share/nginx/html/
             sudo systemctl reload nginx
-            echo 'Deployment completed at \$(date)'
+            echo 'Deployment completed'
           "
