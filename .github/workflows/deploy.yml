@@ -44,16 +44,8 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful'"
       
-      - name: Deploy via scp
-        run: |
-          scp -i ~/.ssh/deploy_key -P ${{ secrets.SERVER_PORT }} -r www/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/usr/share/nginx/html/
-          echo "SCP deployment complete"
+      - name: Deploy via scp (to temp directory)
+        run: |\n          scp -i ~/.ssh/deploy_key -P ${{ secrets.SERVER_PORT }} -r www/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/www-deploy-temp/\n          echo "SCP deployment to temp directory complete"
       
-      - name: Remote commands
-        run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
-            sudo chown -R root:admin /usr/share/nginx/html/
-            sudo chmod -R 755 /usr/share/nginx/html/
-            sudo systemctl reload nginx
-            echo 'Deployment completed'
-          "
+      - name: Remote commands (move files with sudo)
+        run: |\n          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "\n            echo 'Moving files to nginx directory...'\n            sudo rm -rf /usr/share/nginx/html/*\n            sudo cp -r ~/www-deploy-temp/* /usr/share/nginx/html/\n            sudo chown -R root:admin /usr/share/nginx/html/\n            sudo chmod -R 755 /usr/share/nginx/html/\n            sudo systemctl reload nginx\n            rm -rf ~/www-deploy-temp/\n            echo 'Deployment completed successfully'\n          "
