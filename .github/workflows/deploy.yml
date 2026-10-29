@@ -31,6 +31,8 @@ jobs:
       - name: Prepare deployment files
         run: |
           cp -r astro-site/dist/* www/slash/ 2>/dev/null || true
+          cd www && tar -czf ../deploy.tar.gz . && cd ..
+          echo "Deployment package created"
       
       - name: Setup SSH Key
         run: |
@@ -44,8 +46,13 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful'"
       
-      - name: Deploy via scp (to temp directory)
-        run: |\n          scp -i ~/.ssh/deploy_key -P ${{ secrets.SERVER_PORT }} -r www/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/www-deploy-temp/\n          echo "SCP deployment to temp directory complete"
-      
-      - name: Remote commands (move files with sudo)
-        run: |\n          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "\n            echo 'Moving files to nginx directory...'\n            sudo rm -rf /usr/share/nginx/html/*\n            sudo cp -r ~/www-deploy-temp/* /usr/share/nginx/html/\n            sudo chown -R root:admin /usr/share/nginx/html/\n            sudo chmod -R 755 /usr/share/nginx/html/\n            sudo systemctl reload nginx\n            rm -rf ~/www-deploy-temp/\n            echo 'Deployment completed successfully'\n          "
+      - name: Deploy via SSH (tar + sudo)
+        run: |
+          cat deploy.tar.gz | ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
+            sudo mkdir -p /usr/share/nginx/html
+            sudo tar -xzf - -C /usr/share/nginx/html/
+            sudo chown -R root:admin /usr/share/nginx/html/
+            sudo chmod -R 755 /usr/share/nginx/html/
+            sudo systemctl reload nginx
+            echo 'Deployment completed successfully'
+          "
